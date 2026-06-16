@@ -1,0 +1,448 @@
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT
+);
+INSERT INTO Employees (emp_id, emp_name, department, salary) VALUES
+(101, 'Saran', 'IT', 55000),
+(102, 'Priya', 'HR', 45000),
+(103, 'Rahul', 'IT', 65000),
+(104, 'Kumar', 'Finance', 70000),
+(105, 'Anjali', 'HR', 60000),
+(106, 'Sneha', 'Sales', 48000),
+(107, 'Varun', 'IT', 52000),
+(108, 'Deepa', 'Finance', 75000),
+(109, 'Arjun', 'Sales', 50000),
+(110, 'Harsha', 'IT', 58000);
+DELIMITER //
+CREATE PROCEDURE show_all_emp()
+BEGIN
+    SELECT * FROM Employees;
+END //
+DELIMITER ;
+CALL show_all_emp();
+
+DELIMITER //
+CREATE PROCEDURE emp_name_salary()
+BEGIN
+    SELECT emp_name, salary
+    FROM Employees;
+END //
+DELIMITER ;
+CALL emp_name_salary();
+
+DELIMITER //
+CREATE PROCEDURE show_departments()
+BEGIN
+    SELECT DISTINCT department
+    FROM Employees;
+END //
+DELIMITER ;
+CALL show_departments();
+
+DELIMITER //
+CREATE PROCEDURE emp_salary_asc()
+BEGIN
+    SELECT *
+    FROM Employees
+    ORDER BY salary ASC;
+END //
+DELIMITER ;
+CALL emp_salary_asc();
+
+DELIMITER //
+CREATE PROCEDURE total_emp()
+BEGIN
+    SELECT COUNT(*) AS total_employees
+    FROM Employees;
+END //
+DELIMITER ;
+CALL total_emp();
+
+DELIMITER //
+CREATE PROCEDURE it_emp()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE department = 'IT';
+END //
+DELIMITER ;
+CALL it_emp();
+
+DELIMITER //
+CREATE PROCEDURE high_salary()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE salary > 50000;
+END //
+DELIMITER ;
+CALL high_salary();
+
+DELIMITER //
+CREATE PROCEDURE hr_emp()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE department = 'HR';
+END //
+DELIMITER ;
+CALL hr_emp();
+
+DELIMITER //
+CREATE PROCEDURE salary_range()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE salary BETWEEN 45000 AND 65000;
+END //
+DELIMITER ;
+CALL salary_range();
+
+DELIMITER //
+CREATE PROCEDURE salary_range()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE salary BETWEEN 45000 AND 65000;
+END //
+DELIMITER ;
+CALL salary_range();
+
+DELIMITER //
+CREATE PROCEDURE name_start_s()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE emp_name LIKE 'S%';
+END //
+DELIMITER ;
+CALL name_start_s();
+
+DELIMITER //
+CREATE PROCEDURE emp_by_dept(IN d VARCHAR(50))
+BEGIN
+    SELECT * FROM Employees
+    WHERE department = d;
+END //
+DELIMITER ;
+CALL emp_by_dept('IT');
+
+DELIMITER //
+CREATE PROCEDURE emp_by_id(IN id INT)
+BEGIN
+    SELECT * FROM Employees
+    WHERE emp_id = id;
+END //
+DELIMITER ;
+CALL emp_by_id(101);
+
+DELIMITER //
+CREATE PROCEDURE emp_by_salary(IN s INT)
+BEGIN
+    SELECT * FROM Employees
+    WHERE salary > s;
+END //
+DELIMITER ;
+CALL emp_by_salary(50000);
+
+DELIMITER //
+CREATE PROCEDURE emp_by_name(IN n VARCHAR(50))
+BEGIN
+    SELECT * FROM Employees
+    WHERE emp_name = n;
+END //
+DELIMITER ;
+CALL emp_by_name('Saran');
+
+DELIMITER //
+CREATE PROCEDURE count_dept(IN d VARCHAR(50))
+BEGIN
+    SELECT COUNT(*) AS total
+    FROM Employees
+    WHERE department = d;
+END //
+DELIMITER ;
+CALL count_dept('IT');
+
+DELIMITER //
+CREATE PROCEDURE dept_salary(IN d VARCHAR(50), IN s INT)
+BEGIN
+    SELECT * FROM Employees
+    WHERE department = d
+    AND salary = s;
+END //
+DELIMITER ;
+CALL dept_salary('IT',55000);
+
+DELIMITER //
+CREATE PROCEDURE salary_range(IN min_sal INT, IN max_sal INT)
+BEGIN
+    SELECT * FROM Employees
+    WHERE salary BETWEEN min_sal AND max_sal;
+END //
+DELIMITER ;
+CALL salary_range(45000,65000);
+
+DELIMITER //
+CREATE PROCEDURE emp_id_dept(IN id INT, IN d VARCHAR(50))
+BEGIN
+    SELECT * FROM Employees
+    WHERE emp_id = id
+    AND department = d;
+END //
+DELIMITER ;
+CALL emp_id_dept(101,'IT');
+
+DELIMITER //
+CREATE PROCEDURE emp_name_salary(IN n VARCHAR(50), IN s INT)
+BEGIN
+    SELECT * FROM Employees
+    WHERE emp_name = n
+    AND salary = s;
+END //
+DELIMITER ;
+CALL emp_name_salary('Saran',55000);
+
+DELIMITER //
+CREATE PROCEDURE dept_name(IN d VARCHAR(50), IN n VARCHAR(50))
+BEGIN
+    SELECT * FROM Employees
+    WHERE department = d
+    AND emp_name = n;
+END //
+DELIMITER ;
+CALL dept_name('IT','Saran');
+
+DELIMITER //
+CREATE PROCEDURE add_emp(
+IN id INT,
+IN n VARCHAR(50),
+IN d VARCHAR(50),
+IN s INT
+)
+BEGIN
+    INSERT INTO Employees
+    VALUES(id,n,d,s);
+END //
+DELIMITER ;
+CALL add_emp(111,'Ram','IT',60000);
+
+DELIMITER //
+CREATE PROCEDURE insert_emp(
+IN id INT,
+IN n VARCHAR(50),
+IN d VARCHAR(50),
+IN s INT
+)
+BEGIN
+    INSERT INTO Employees(emp_id,emp_name,department,salary)
+    VALUES(id,n,d,s);
+END //
+DELIMITER ;
+CALL insert_emp(112,'Ravi','HR',50000);
+
+DELIMITER //
+CREATE PROCEDURE add_hr(
+IN id INT,
+IN n VARCHAR(50),
+IN s INT
+)
+BEGIN
+    INSERT INTO Employees(emp_id,emp_name,department,salary)
+    VALUES(id,n,'HR',s);
+END //
+DELIMITER ;
+CALL add_hr(113,'Kiran',55000);
+CALL add_emp(114,'Asha','IT',50000);
+CALL add_emp(115,'Teja','HR',52000);
+CALL add_emp(116,'Vani','Sales',48000);
+
+DELIMITER //
+CREATE PROCEDURE insert_show(
+IN id INT,
+IN n VARCHAR(50),
+IN d VARCHAR(50),
+IN s INT
+)
+BEGIN
+    INSERT INTO Employees
+    VALUES(id,n,d,s);
+
+    SELECT * FROM Employees;
+END //
+DELIMITER ;
+CALL insert_show(117,'Ramu','IT',62000);
+
+DELIMITER //
+CREATE PROCEDURE update_salary(
+IN id INT,
+IN s INT
+)
+BEGIN
+    UPDATE Employees
+    SET salary = s
+    WHERE emp_id = id;
+END //
+DELIMITER ;
+CALL update_salary(101,60000);
+
+DELIMITER //
+CREATE PROCEDURE update_dept(
+IN id INT,
+IN d VARCHAR(50)
+)
+BEGIN
+    UPDATE Employees
+    SET department = d
+    WHERE emp_id = id;
+END //
+DELIMITER ;
+CALL update_dept(101,'CSE');
+
+DELIMITER //
+CREATE PROCEDURE inc_it_salary()
+BEGIN
+    UPDATE Employees
+    SET salary = salary + 5000
+    WHERE department = 'IT';
+END //
+DELIMITER ;
+CALL inc_it_salary();
+
+DELIMITER //
+CREATE PROCEDURE update_sal(
+IN id INT,
+IN newsal INT
+)
+BEGIN
+    UPDATE Employees
+    SET salary = newsal
+    WHERE emp_id = id;
+END //
+DELIMITER ;
+CALL update_sal(101,70000);
+
+DELIMITER //
+CREATE PROCEDURE update_name(
+IN id INT,
+IN newname VARCHAR(50)
+)
+BEGIN
+    UPDATE Employees
+    SET emp_name = newname
+    WHERE emp_id = id;
+END //
+DELIMITER ;
+CALL update_name(101,'Vasavi');
+
+DELIMITER //
+CREATE PROCEDURE delete_emp(
+IN id INT
+)
+BEGIN
+    DELETE FROM Employees
+    WHERE emp_id = id;
+END //
+DELIMITER ;
+CALL delete_emp(101);
+
+DELIMITER //
+CREATE PROCEDURE delete_hr()
+BEGIN
+    DELETE FROM Employees
+    WHERE department = 'HR';
+END //
+DELIMITER ;
+CALL delete_hr();
+
+DELIMITER //
+CREATE PROCEDURE delete_low_salary()
+BEGIN
+    DELETE FROM Employees
+    WHERE salary < 50000;
+END //
+DELIMITER ;
+CALL delete_low_salary();
+
+DELIMITER //
+CREATE PROCEDURE delete_name(
+IN n VARCHAR(50)
+)
+BEGIN
+    DELETE FROM Employees
+    WHERE emp_name = n;
+END //
+DELIMITER ;
+CALL delete_name('Saran');
+
+DELIMITER //
+CREATE PROCEDURE delete_show(
+IN id INT
+)
+BEGIN
+    DELETE FROM Employees
+    WHERE emp_id = id;
+
+    SELECT * FROM Employees;
+END //
+DELIMITER ;
+CALL delete_show(101);
+
+DELIMITER //
+CREATE PROCEDURE highest_paid()
+BEGIN
+    SELECT *
+    FROM Employees
+    WHERE salary = (SELECT MAX(salary) FROM Employees);
+END //
+DELIMITER ;
+CALL highest_paid();
+
+DELIMITER //
+CREATE PROCEDURE avg_dept()
+BEGIN
+    SELECT department,
+           AVG(salary) AS avg_salary
+    FROM Employees
+    GROUP BY department;
+END //
+DELIMITER ;
+CALL avg_dept();
+
+DELIMITER //
+CREATE PROCEDURE inc_dept(
+IN d VARCHAR(50)
+)
+BEGIN
+    UPDATE Employees
+    SET salary = salary * 1.10
+    WHERE department = d;
+END //
+DELIMITER ;
+CALL inc_dept('IT');
+
+DELIMITER //
+CREATE PROCEDURE dept_count(
+IN d VARCHAR(50)
+)
+BEGIN
+    SELECT COUNT(*) AS total
+    FROM Employees
+    WHERE department = d;
+END //
+DELIMITER ;
+CALL dept_count('IT');
+
+DELIMITER //
+CREATE PROCEDURE delete_null_dept()
+BEGIN
+    DELETE FROM Employees
+    WHERE department IS NULL
+    OR department = '';
+
+    SELECT * FROM Employees;
+END //
+DELIMITER ;
+CALL delete_null_dept();
